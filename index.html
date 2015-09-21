@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Introduction to Scala</title>
+
+		<meta name="description" content="Introduction to Scala">
+		<meta name="author" content="Federico Caimi">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Introduction to Scala</h1>
+					<h3>Functional Data Processing</h3>
+					<p>
+						<small>Created by Federico Caimi / <a href="http://www.github.com/fedeoasi">@fedeoasi</a></small>
+						<br>
+						<small>Backstop Solutions Group</small>
+					</p>
+				</section>
+
+                                <section>
+                                        <h2>Outline</h2>
+                                        <ul>
+                                                <li>Why Scala?</li>
+                                                <li>Functional and Object Oriented Programming</li>
+                                                <li>(Some) Language Features</li>
+                                                <li>Live Code Example (CTA Data Processing)</li>
+                                                <li>Scala at Backstop</li>
+                                                <li>Conclusions</li>
+                                        </ul>
+                                </section>
+
+				<section>
+					<h2>Why Scala?</h2>
+					<ul>
+                                        	<li>JVM Language</li>
+                                                <li>Unifies Functional and Object Oriented Programming</li>
+                                          	<li>Typesafe</li>
+                                          	<li>Concise Code</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Functional Programming</h2>
+					<ul>
+                                        	<li>Programming paradigm where functions are first-class citizens</li>
+                                        	<li>Minimize state changes and mutability</li>
+                                        	<li>Minimize external dependencies (e.g., the result of a function only depends on its parameters)</li>
+                                        	<li>Minimize side effects (external changes)</li>
+					</ul>
+                                        <p class="fragment">Code is suddenly easier to test, debug, and run in parallel!</p>
+                                </section>
+
+
+                                <section>
+                                        <h2>Unifying FP with Object Oriented Programming</h2>
+                                        <p>OOP is good at structuring programs</p>
+                                        <small>Interfaces, Classes, Encapsulation, Delegation, Singleton...</small>
+                                        <p>FP is good at isolating state change</p>
+					<small>Immutability, Repeatability, Separation of Concerns</small>
+					<div class="fragment">
+						<p>Scala Combines the two:
+							<ul>
+								<li>Everything is an object</li>
+                                        			<li>Functions are objects</li>
+							</ul>
+						</p>
+					</div>
+                                </section>
+
+				<section>
+					<h2>Syntax</h2>
+					<pre><code class="scala" data-trim contenteditable>
+val ten = 10 //ten is an immutable value of type Int
+
+var number = 2 //number is mutable
+number += 1 //number is now 3
+
+def sum(a: Int, b: Int): Int = a + b
+
+def sumThree(a: Int): Int = sum(a, 3)
+
+val numbers = 1 to 4 //Range(1, 2, 3, 4)
+
+val doubles = numbers.map(_ * 2) //Range(2, 4, 6, 8)
+
+val squares = numbers.map(n => n * n) //Range(1, 4, 9, 16)
+
+val summedThree = numbers.map(sumThree) //Range(4, 5, 6, 7)
+
+</code></pre>			
+				</section>
+
+				<section>
+					<h2>Option</h2>
+					<p>
+						Option[A] is a container type and can have two values: Some[A] and None.
+					</p>
+                                        <pre><code class="scala" data-trim contenteditable>
+class User(val username: String, val email: Option[String])
+val users = Seq(
+  new User("user1", Some("user1@gmail.com")),
+  new User("user2", None),
+  new User("user3", Some("user3@gmail.com"))
+)
+def sendMessage(email: String, message: String) = println(s"Sending email to $message")
+users.foreach { u =>
+  u.email match {
+    case Some(email) => sendMessage(email, "Welcome to MyApp")
+    case None =>
+  }
+}
+                                        </code></pre>
+					<p>Your code will be safer as the compiler will force you to think about the None case.</p>
+				</section>
+
+				<section>
+					<h2>Case Classes</h2>
+					<pre><code class="scala" data-trim contenteditable>
+case class Person(firstName: String, 
+                  lastName: String,
+		  birthDate: LocalDate)
+					</code></pre>
+					<p>With just a little typing, we get a lot of things:</p>
+					<ul>
+						<li>A class with immutable fields</li>
+						<li>Ability to use Person in pattern matching expression</li>
+						<li>.equals() and .hashCode() that work</li>
+						<li>An apply method</li>
+					</ul>
+			
+				</section>
+
+				<section>
+					<h2>Processing CTA Datasets</h2>
+					<p>Goal: Have fun processing collections in Scala</p>
+					<p>Possible Side Effect: Learn something interesting about the CTA</p>
+					<p>Code on <a href="https://github.com/fedeoasi/scala-cta-demo">Github</a></p>
+				</section>
+				
+				<section>
+					<h2>Scala at Backstop</h2>
+					<ul>
+						<li>Used in a team of 3-4 developers</li>
+						<li>Rewrote part of our accounting engine</li>
+						<li>Made it 20x faster</li>
+						<li>Learned Scala as we were working on the project</li>
+				        </ul>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
